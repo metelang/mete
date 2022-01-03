@@ -12,7 +12,7 @@ type Lexer struct {
 func New(input string) *Lexer {
 	l := &Lexer{input: input}
 	l.readChar()
-	return l;
+	return l
 }
 
 func (l *Lexer) readChar() {
@@ -78,11 +78,11 @@ func (l *Lexer) NextToken() token.Token {
 		if isLetter(l.ch) {
 			tk.Literal = l.readIdentifier()
 			tk.Type = token.LookupKeywords(tk.Literal)
-			return tk;
+			return tk
 		} else if isDigit(l.ch) {
 			tk.Type = token.INT
-			tk.Literal = l.readNumber();
-			return tk;
+			tk.Literal = l.readNumber()
+			return tk
 		} else {
 			tk = newToken(token.ILLEGAL, l.ch)
 		}
@@ -112,7 +112,7 @@ func (l *Lexer) readNumber() string {
 }
 
 func (l *Lexer) peekChar() byte {
-	if l.position >= len(l.input) {
+	if l.readPosition >= len(l.input) {
 		return 0
 	} else {
 		return l.input[l.readPosition]
@@ -125,10 +125,10 @@ func isLetter(ch byte) bool {
 
 func (l *Lexer) skipWhiteSpaces() {
 	for l.ch == ' ' || l.ch == '\t' || l.ch == '\n' || l.ch == '\r' {
-		l.readChar();
+		l.readChar()
 	}
 }
 
 func isDigit(ch byte) bool {
-	return '0' <= ch && ch <= '9';
+	return '0' <= ch && ch <= '9'
 }
