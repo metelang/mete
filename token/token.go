@@ -23,8 +23,10 @@ const (
 	MLTP   = "*"
 	DIVIDE = "/"
 
-	LT = "<"
-	GT = ">"
+	LT     = "<"
+	GT     = ">"
+	EQ     = "=="
+	NOT_EQ = "!="
 
 	//DELIMETERS
 	COMMA     = ","

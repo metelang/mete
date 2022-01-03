@@ -1,7 +1,7 @@
 package lexer
 
 import (
-	"metelang/token"
+	"github.com/metelang/mete/token"
 	"testing"
 )
 
@@ -113,6 +113,20 @@ func TestNextTokenIfElseReturnTrueFalseOperands(t *testing.T) {
       } else {
          return false; 
       }
+
+      if (1 != 2) {
+        return true;
+      }
+
+      if (1 == 1) {
+        return true;
+      }
+
+      if (2 > 1) {
+        return true;
+      } else {
+         return false; 
+      }
     `
 
 	tests := []struct {
@@ -124,6 +138,45 @@ func TestNextTokenIfElseReturnTrueFalseOperands(t *testing.T) {
 		{token.INT, "1"},
 		{token.LT, "<"},
 		{token.INT, "2"},
+		{token.RPAREN, ")"},
+		{token.LBRACE, "{"},
+		{token.RETURN, "return"},
+		{token.TRUE, "true"},
+		{token.SEMICOLON, ";"},
+		{token.RBRACE, "}"},
+		{token.ELSE, "else"},
+		{token.LBRACE, "{"},
+		{token.RETURN, "return"},
+		{token.FALSE, "false"},
+		{token.SEMICOLON, ";"},
+		{token.RBRACE, "}"},
+		{token.IF, "if"},
+		{token.LPAREN, "("},
+		{token.INT, "1"},
+		{token.NOT_EQ, "!="},
+		{token.INT, "2"},
+		{token.RPAREN, ")"},
+		{token.LBRACE, "{"},
+		{token.RETURN, "return"},
+		{token.TRUE, "true"},
+		{token.SEMICOLON, ";"},
+		{token.RBRACE, "}"},
+		{token.IF, "if"},
+		{token.LPAREN, "("},
+		{token.INT, "1"},
+		{token.EQ, "=="},
+		{token.INT, "1"},
+		{token.RPAREN, ")"},
+		{token.LBRACE, "{"},
+		{token.RETURN, "return"},
+		{token.TRUE, "true"},
+		{token.SEMICOLON, ";"},
+		{token.RBRACE, "}"},
+		{token.IF, "if"},
+		{token.LPAREN, "("},
+		{token.INT, "2"},
+		{token.GT, ">"},
+		{token.INT, "1"},
 		{token.RPAREN, ")"},
 		{token.LBRACE, "{"},
 		{token.RETURN, "return"},

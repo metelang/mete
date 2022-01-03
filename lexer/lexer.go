@@ -1,6 +1,6 @@
 package lexer
 
-import "metelang/token"
+import "github.com/metelang/mete/token"
 
 type Lexer struct {
 	input        string
@@ -32,7 +32,13 @@ func (l *Lexer) NextToken() token.Token {
 
 	switch l.ch {
 	case '=':
-		tk = newToken(token.ASSIGN, l.ch)
+		if l.peekChar() == '=' {
+			ch := l.ch
+			l.readChar()
+			tk = token.Token{Type: token.EQ, Literal: string(ch) + string(l.ch)}
+		} else {
+			tk = newToken(token.ASSIGN, l.ch)
+		}
 	case ';':
 		tk = newToken(token.SEMICOLON, l.ch)
 	case '(':
@@ -50,7 +56,13 @@ func (l *Lexer) NextToken() token.Token {
 	case '-':
 		tk = newToken(token.MINUS, l.ch)
 	case '!':
-		tk = newToken(token.EXCL, l.ch)
+		if l.peekChar() == '=' {
+			ch := l.ch
+			l.readChar()
+			tk = token.Token{Type: token.NOT_EQ, Literal: string(ch) + string(l.ch)}
+		} else {
+			tk = newToken(token.EXCL, l.ch)
+		}
 	case '*':
 		tk = newToken(token.MLTP, l.ch)
 	case '/':
@@ -97,6 +109,14 @@ func (l *Lexer) readNumber() string {
 		l.readChar()
 	}
 	return l.input[position:l.position]
+}
+
+func (l *Lexer) peekChar() byte {
+	if l.position >= len(l.input) {
+		return 0
+	} else {
+		return l.input[l.readPosition]
+	}
 }
 
 func isLetter(ch byte) bool {
